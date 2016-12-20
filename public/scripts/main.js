@@ -42,10 +42,10 @@ function getStoredMessages () {
 
   });
   function  printMessages(msgArray) {
-    console.log(msgArray);
     for (var i in msgArray) {
+      console.log(msgArray);
       const msg =msgArray[i];
-      renderQuote(msg.content, msg.time, msg.userName,true);
+      renderQuote(msg.content, msg.timestamp, msg.user,true);
     }
   }
 }

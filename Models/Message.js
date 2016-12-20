@@ -1,15 +1,24 @@
 'use strict';
 
 const fs = require('fs');
-const dbFilePath = __dirname + '/db.json';
-const db = JSON.parse(fs.readFileSync(dbFilePath, 'utf8'));
-
+// const dbFilePath = __dirname + '/db.json';
+const db = require('../config/db.js');
 const Message = {};
-Message.getAllMessages = function  () {
-  return db.msgs;
+
+Message.getAllMessages = function () {
+  return new Promise(function (resolve, reject) {
+    db.query('SELECT* from messages', function (err, rows, fields) {
+      if (err) reject(err);
+      console.log(rows);
+      resolve(rows);
+    });
+  });
 };
+
+
 Message.storeMessage = function (content) {
-  db.msgs.push(content);
-  fs.writeFile(dbFilePath, JSON.stringify(db));
+  // console.log(content);
+  db.query(`INSERT into messages (user, timestamp, content) VALUES ('${content.userName}','${content.time}','${content.content}');`);
+
 };
 module.exports = Message;
